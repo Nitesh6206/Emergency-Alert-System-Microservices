@@ -1,123 +1,241 @@
 # 🌍 Disaster Management System – Microservices Architecture
 
-This project is a **Microservices-based Disaster Management System** developed using **Spring Boot**, **Spring Cloud**, and modern backend practices. It simulates a real-world platform to handle users, tasks, and resource allocation during disaster scenarios.
+This project is a **Microservices-based Disaster Management System** built using **Spring Boot** and **Spring Cloud**. It provides a robust platform for managing users, tasks, and resource allocation during disaster scenarios, designed with scalability and reliability in mind.
 
 ---
 
 ## 🚀 Tech Stack
 
-- **Java 17**, **Spring Boot**
-- **Spring Cloud (Eureka, Feign Client)**
-- **PostgreSQL** for `task-service`
-- **MongoDB** for `resource-service`
-- **JPA**, **Spring Data MongoDB**
-- **Kafka** (planned for task notifications)
-- **Docker** (optional)
-- **Maven**, **Lombok**
+- **Java 17**: Core programming language  
+- **Spring Boot**: Framework for building microservices  
+- **Spring Cloud**:  
+  - Eureka for service discovery  
+  - Feign Client for inter-service communication  
+
+- **Databases**:  
+  - PostgreSQL for `task-service`  
+  - MongoDB for `resource-service`  
+
+- **Spring Data**:  
+  - JPA for relational data  
+  - MongoDB for NoSQL data  
+
+- **Apache Kafka**: Planned for event-driven task notifications  
+- **Docker**: Optional for containerization  
+- **Maven**: Build tool  
+- **Lombok**: Reduces boilerplate code  
 
 ---
 
 ## 🧩 Microservices Overview
 
-| Service           | Port | Description                                   |
-|-------------------|------|-----------------------------------------------|
-| `user-service`    | 8081 | Handles user registration and profile         |
-| `resource-service`| 8082 | Manages resource allocation for tasks         |
-| `task-service`    | 8083 | Manages disaster-related tasks and assignments|
-| `eureka-server`   | 8761 | Service discovery and registry                |
+| Service           | Port | Description                              |
+|------------------|------|------------------------------------------|
+| `eureka-server`  | 8761 | Service discovery and registry           |
+| `user-service`   | 8081 | Manages user registration and profiles   |
+| `task-service`   | 8083 | Handles disaster-related tasks           |
+| `resource-service` | 8082 | Manages resource allocation for tasks   |
 
 ---
 
 ## 📌 Features
 
-- ✅ Register and fetch users (`user-service`)
-- ✅ Assign tasks and fetch tasks by user (`task-service`)
-- ✅ Allocate or fetch resources for a task (`resource-service`)
-- ✅ Inter-service communication using **Feign**
-- ✅ Service discovery using **Eureka**
-- ❗ Kafka integration planned for event-driven notifications
+- ✅ **User Management**: Register and retrieve user information (`user-service`)  
+- ✅ **Task Management**: Create, assign, and fetch tasks by user (`task-service`)  
+- ✅ **Resource Management**: Allocate and retrieve resources for tasks (`resource-service`)  
+- ✅ **Inter-Service Communication**: Feign Client  
+- ✅ **Service Discovery**: Eureka
+- ✅ **API GateWay**: API Gateway with Spring Cloud Gateway 
+
+### 🛠 Planned Features
+
+- 🔁 Event-driven task notifications using Kafka  
+- 🌐 API Gateway with Spring Cloud Gateway  
+- 🔐 Security with Spring Security and JWT  
+- 🐳 Full containerization with Docker  
 
 ---
 
-## 🔄 Architecture Diagram
+## 🔄 Architecture Diagram (Text Representation)
 
+```
++------------------+       +------------------+
+|   Eureka Server  |<----->|   User Service   |
+|      (8761)      |       |      (8081)      |
++------------------+       +------------------+
+         ^                        |
+         |                        v
+         |                 +------------------+
+         +---------------->|   Task Service   |
+         |                 |      (8083)      |
+         |                 +------------------+
+         |                        |
+         |                        v
+         |                 +------------------+
+         +---------------->| Resource Service |
+                           |      (8082)      |
+                           +------------------+
+                           |      MongoDB     |
+                           +------------------+
+         +------------------+
+         |   PostgreSQL     |
+         +------------------+
+```
 
+> 📌 *Note: View the actual diagram in the repo for a visual representation.*
 
-## 🔄 Architecture Diagram
-
-<img width="573" height="392" alt="Screenshot 2025-07-11 at 3 03 06 PM" src="https://github.com/user-attachments/assets/7222553e-46f2-4f39-86d9-e48c9238a2eb" />
-
-         
-
+---
 
 ## 📁 Project Structure
-<img width="341" height="389" alt="Screenshot 2025-07-11 at 11 51 43 AM" src="https://github.com/user-attachments/assets/9ec7ff49-8155-4f09-aa20-554273f91f40" />
 
-
-
-yaml
-Copy
-Edit
+```
+Disaster-Management-Microservices/
+├── eureka-server/
+│   ├── src/
+│   └── pom.xml
+├── user-service/
+│   ├── src/
+│   └── pom.xml
+├── task-service/
+│   ├── src/
+│   └── pom.xml
+├── resource-service/
+│   ├── src/
+│   └── pom.xml
+├── config-repo/
+│   ├── application.yml
+│   └── <service-specific>.yml
+├── docker-compose.yml
+└── README.md
+```
 
 ---
 
-## 🚀 How to Run
+## 🚀 Getting Started
 
-### 1. Clone the repository
+### ✅ Prerequisites
+
+- Java 17 or higher  
+- Maven  
+- PostgreSQL  
+- MongoDB  
+- Docker (optional)
+
+---
+
+### 🛠 Installation and Setup
+
+#### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/Nitesh6206/Disaster-Managment-MicroServices.git
-cd Disaster-Managment-MicroServices
-2. Run with Docker Compose
-bash
-Copy
-Edit
+git clone https://github.com/Nitesh6206/Disaster-Management-MicroServices.git
+cd Disaster-Management-MicroServices
+```
+
+#### 2️⃣ Configure Databases
+
+- Set up PostgreSQL and MongoDB instances.  
+- Update your `application.yml` files in `config-repo/` with proper DB credentials.
+
+#### 3️⃣ Build Project
+
+```bash
+mvn clean install
+```
+
+#### 4️⃣ Start Eureka Server
+
+```bash
+cd eureka-server
+mvn spring-boot:run
+```
+
+#### 5️⃣ Start Each Service
+
+In separate terminals:
+
+```bash
+cd user-service
+mvn spring-boot:run
+
+cd ../task-service
+mvn spring-boot:run
+
+cd ../resource-service
+mvn spring-boot:run
+```
+
+---
+
+### 🐳 Run with Docker (Partially Implemeted Comming Soon)
+
+```bash
 docker-compose up --build
-Make sure Docker is installed and running.
+```
 
-📄 Configuration
-All service configurations are located in config-repo/
+> Ensure Docker is installed. This will spin up all services and databases.
 
-The application.yml in each microservice contains its Spring Boot settings.
+---
 
-MongoDB is used by analytics-service, PostgreSQL is used by user-service and others as needed.
+## ⚙️ Configuration
 
-✅ Features
-📡 Real-Time Alert Broadcasting
+All service configurations are in the `config-repo/` directory.
 
-👥 User & Role Management
+### Example: `task-service`
 
-📊 Incident Logging & Reporting
+```yaml
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/task_db
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+```
 
-🧠 Data Analytics and Insights
+### Example: `resource-service`
 
-🧰 Resource Allocation & Tracking
+```yaml
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/resource_db
+```
 
-📌 Task Assignment and Monitoring
+---
 
-🌐 API Gateway with Routing
+## ✅ Additional Functionalities
 
-🛠️ Centralized Config Server
+- 🔔 **Real-Time Alerts** with Kafka (planned)  
+- 👥 **User & Role Management**  
+- 📒 **Incident Logging** via task-service  
+- 🛠 **Resource Allocation & Tracking**  
+- 👨‍💼 **Task Assignment & Monitoring**  
+- 🔎 **Service Discovery with Eureka**  
+- 🛠 **Centralized Configuration via config-repo**  
 
-🔎 Service Discovery with Eureka
+---
 
+## 🐳 Docker Support
 
-## 🐳 Docker Support (Optional)
-Coming Soon...
+Docker support is partially implemented. A `docker-compose.yml` file is provided to spin up all services and databases. Full containerization including API Gateway is planned.
 
-## 📌 Future Improvements
- Add Kafka-based task notifications
+---
 
- Add API gateway (Spring Cloud Gateway)
+## 📅 Future Improvements
 
- Add security with Spring Security and JWT
+- Implement Apache Kafka  
+- Add Spring Security with JWT  
+- Enhance Monitoring with Actuator & Prometheus  
+- Full Dockerization  
 
- Containerize with Docker
+---
 
+## 👨‍💻 Author
 
+**Nitesh Kumar**  
+[GitHub](https://github.com/Nitesh6206)  
+[LinkedIn](https://linkedin.com/in/nitesh6206)  
 
-👨‍💻 Author
-Nitesh Kumar
-GitHub Profile
-LinkedIn
 
