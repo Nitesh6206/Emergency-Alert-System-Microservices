@@ -34,21 +34,9 @@ This is a microservices-based Disaster Management platform designed to efficient
 ---
 
 ## 📁 Project Structure
+<img width="341" height="389" alt="Screenshot 2025-07-11 at 11 51 43 AM" src="https://github.com/user-attachments/assets/9ec7ff49-8155-4f09-aa20-554273f91f40" />
 
-disaster-response-platform/
-│
-├── user-service/
-├── incident-service/
-├── alert-service/
-├── resources-service/
-├── analytics-service/
-├── task-service/
-├── config-server/
-├── service-discovery/
-├── apigateway/
-├── config-repo/
-├── docker-compose.yml
-└── README.md
+
 
 yaml
 Copy
