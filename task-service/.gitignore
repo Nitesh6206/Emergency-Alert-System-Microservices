@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignore all application config files
+**/application.properties
+**/application.yml
