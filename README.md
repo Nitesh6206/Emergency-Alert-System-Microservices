@@ -1,37 +1,47 @@
-# 🌍 Disaster Management Microservices System
+# 🌍 Disaster Management System – Microservices Architecture
 
-This is a microservices-based Disaster Management platform designed to efficiently handle various aspects of emergency and disaster scenarios, such as resource allocation, task management, user handling, alert broadcasting, incident tracking, and analytical reporting.
-
----
-
-## 🛠️ Tech Stack
-
-- **Java 17**
-- **Spring Boot**
-- **Spring Cloud (Eureka, Config, Gateway)**
-- **MongoDB** and **PostgreSQL**
-- **Docker & Docker Compose**
-- **Maven**
-- **REST APIs**
-- **Microservice Architecture**
+This project is a **Microservices-based Disaster Management System** developed using **Spring Boot**, **Spring Cloud**, and modern backend practices. It simulates a real-world platform to handle users, tasks, and resource allocation during disaster scenarios.
 
 ---
 
-## 📦 Microservices Overview
+## 🚀 Tech Stack
 
-| Service Name       | Description                                           |
-|--------------------|-------------------------------------------------------|
-| `user-service`     | Manages user registration, login, roles & authentication. |
-| `incident-service` | Tracks incidents such as disasters and emergencies.     |
-| `alert-service`    | Broadcasts alerts/notifications related to incidents.  |
-| `task-service`     | Assigns and manages disaster-related tasks.            |
-| `resources-service`| Manages the resources (equipment, personnel, etc).     |
-| `analytics-service`| Generates analytical reports from incident data.       |
-| `config-server`    | Centralized configuration service for all services.    |
-| `service-discovery`| Eureka server for service registration/discovery.      |
-| `apigateway`       | Acts as a unified entry point for all services.        |
+- **Java 17**, **Spring Boot**
+- **Spring Cloud (Eureka, Feign Client)**
+- **PostgreSQL** for `task-service`
+- **MongoDB** for `resource-service`
+- **JPA**, **Spring Data MongoDB**
+- **Kafka** (planned for task notifications)
+- **Docker** (optional)
+- **Maven**, **Lombok**
 
 ---
+
+## 🧩 Microservices Overview
+
+| Service           | Port | Description                                   |
+|-------------------|------|-----------------------------------------------|
+| `user-service`    | 8081 | Handles user registration and profile         |
+| `resource-service`| 8082 | Manages resource allocation for tasks         |
+| `task-service`    | 8083 | Manages disaster-related tasks and assignments|
+| `eureka-server`   | 8761 | Service discovery and registry                |
+
+---
+
+## 📌 Features
+
+- ✅ Register and fetch users (`user-service`)
+- ✅ Assign tasks and fetch tasks by user (`task-service`)
+- ✅ Allocate or fetch resources for a task (`resource-service`)
+- ✅ Inter-service communication using **Feign**
+- ✅ Service discovery using **Eureka**
+- ❗ Kafka integration planned for event-driven notifications
+
+---
+
+## 🔄 Architecture Diagram
+
+
 
 ## 🔄 Architecture Diagram
 
@@ -90,6 +100,21 @@ MongoDB is used by analytics-service, PostgreSQL is used by user-service and oth
 🛠️ Centralized Config Server
 
 🔎 Service Discovery with Eureka
+
+
+## 🐳 Docker Support (Optional)
+Coming Soon...
+
+## 📌 Future Improvements
+ Add Kafka-based task notifications
+
+ Add API gateway (Spring Cloud Gateway)
+
+ Add security with Spring Security and JWT
+
+ Containerize with Docker
+
+
 
 👨‍💻 Author
 Nitesh Kumar
