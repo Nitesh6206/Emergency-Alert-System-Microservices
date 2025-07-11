@@ -33,7 +33,4 @@ build/
 .vscode/
 
 # Ignore all application config files
-**/application.properties
-**/application.yml
-!**/src/main/**/application.properties/
-!**/src/main/**/application.yml/
+src/main/resources/application.yml

@@ -3,6 +3,7 @@ package com.nitesh.resources_service.Controller;
 import com.nitesh.resources_service.Service.ResourceService;
 import com.nitesh.resources_service.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,4 +30,10 @@ public class ResourceController {
     public ResponseEntity<List<Resource>> getAllResouces(){
         return ResponseEntity.ok(resourceService.getAllResources());
     }
+    @GetMapping("/bytask/{id}")
+    public ResponseEntity<List<Resource>> getByTask(@PathVariable Long id) {
+        return new ResponseEntity<>(resourceService.findByTask(id), HttpStatus.OK);
+    }
+
+
 }

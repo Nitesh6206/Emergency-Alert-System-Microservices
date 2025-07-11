@@ -1,5 +1,6 @@
 package com.nitesh.task_service.Service;
 
+import com.nitesh.task_service.Model.Resources;
 import com.nitesh.task_service.Model.Task;
 import com.nitesh.task_service.Repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class TaskService {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
+    @Autowired
+    private  ResourcesfeingClient resourcesfeingClient;
+
     public Task createTask(Task task) {
         Task savedTask = taskRepository.save(task);
 //        kafkaTemplate.send("task-created-topic", "TaskCreated: " + savedTask.getId());
@@ -29,6 +33,15 @@ public class TaskService {
 
     public ResponseEntity<List<Task>> getAllTasksDetails() {
         List<Task> taskList=taskRepository.findAll();
+        for(Task task:taskList){
+            List<Resources> resources= (List<Resources>) resourcesfeingClient.getByTask(task.getId());
+            task.setResources(resources);
+;        }
         return  ResponseEntity.ok(taskList);
+    }
+
+    public List<Task> findByUserId(Long userId) {
+
+        return taskRepository.findByAssignedUserId(userId);
     }
 }

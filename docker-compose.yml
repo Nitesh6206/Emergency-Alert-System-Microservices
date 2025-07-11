@@ -1,23 +1,17 @@
-services:
-  zookeeper:
-    image: confluentinc/cp-zookeeper:latest
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    ports:
-      - "2181:2181"
+version: '3.8'
 
-  kafka:
-    image: confluentinc/cp-kafka:latest
-    depends_on:
-      - zookeeper
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
     ports:
-      - "9092:9092"
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: disasterdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
   service-discovery:
     build: ./service-discovery
@@ -31,4 +25,29 @@ services:
     depends_on:
       - service-discovery
     volumes:
-      - ~/disaster-response-platform/config-repo:/config-repo
+      - ./config-repo:/config-repo
+
+  user-service:
+    build: ./user-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+      - service-discovery
+      - config-server
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+
+  task-service:
+    build: ./task-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - postgres
+      - service-discovery
+      - config-server
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+
+volumes:
+  pgdata:

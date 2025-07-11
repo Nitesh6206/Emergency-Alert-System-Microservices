@@ -25,4 +25,8 @@ public class ResourceService {
     public List<Resource> getAllResources(){
         return resourceRepository.findAll();
     }
+
+    public List<Resource> findByTask(Long id) {
+        return  resourceRepository.findByTaskId(id);
+    }
 }
