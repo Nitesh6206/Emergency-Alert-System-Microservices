@@ -33,6 +33,28 @@ This is a microservices-based Disaster Management platform designed to efficient
 
 ---
 
+## 🔄 Architecture Diagram
+
+
+                   +------------------------+
+                   |     Eureka Server      |
+                   |        (8761)          |
+                   +-----------+------------+
+                               |
+                  +------------v-------------+
+                  |      API Gateway         |
+                  |         (8080)           |
+                  +------------+-------------+
+                               |
+      +------------------------+-------------------------+
+      |                        |                         |
+ +----v-----+           +------v-------+         +-------v--------+
+ | User     |           | Task         |         | Resource       |
+ | Service  |           | Service      |         | Service        |
+ | (8081)   |           | (8083)       |         | (8082)         |
+ +----------+           +--------------+         +----------------+
+
+
 ## 📁 Project Structure
 <img width="341" height="389" alt="Screenshot 2025-07-11 at 11 51 43 AM" src="https://github.com/user-attachments/assets/9ec7ff49-8155-4f09-aa20-554273f91f40" />
 
