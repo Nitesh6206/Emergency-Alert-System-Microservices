@@ -1,0 +1,42 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: resource-service
+  data:
+    mongodb:
+      uri: mongodb+srv://niteshsingh6206:IzEoACREJVGhWwD9@cluster0.0vtamtx.mongodb.net/resources?retryWrites=true&w=majority&appName=Cluster0
+      database: resources
+#  kafka:
+#    bootstrap-servers: kafka:9092
+#    consumer:
+#      group-id: resource-service-group
+#      auto-offset-reset: earliest
+#    producer:
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  cloud:
+    config:
+      uri: http://config-server:8888
+      name: resource-service
+      enabled: false
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+
+
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: health,info,metrics,prometheus
+#  metrics:
+#    export:
+#      prometheus:
+#        enabled: true

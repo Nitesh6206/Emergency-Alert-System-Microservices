@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: disasterdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  service-discovery:
+    build: ./service-discovery
+    ports:
+      - "8761:8761"
+
+  config-server:
+    build: ./config-server
+    ports:
+      - "8888:8888"
+    depends_on:
+      - service-discovery
+    volumes:
+      - ./config-repo:/config-repo
+
+  user-service:
+    build: ./user-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+      - service-discovery
+      - config-server
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+
+  task-service:
+    build: ./task-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - postgres
+      - service-discovery
+      - config-server
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+
+volumes:
+  pgdata:
