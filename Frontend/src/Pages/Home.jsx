@@ -1,3 +1,4 @@
+// src/pages/Home.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Card from '../Component/Card';
@@ -37,7 +38,7 @@ const Home = () => {
   const handleCreateTask = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8085/api/incidents', form);
+      await axios.post('http://localhost:8085/api/incidents', form);
       setIsModalOpen(false);
       setForm({
         title: '',
@@ -48,7 +49,7 @@ const Home = () => {
         tags: [],
         creator: '',
       });
-      fetchData(); // Refresh list
+      fetchData();
     } catch (error) {
       console.error('Error creating task:', error);
     }
@@ -56,29 +57,26 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4 md:p-6">
-      {/* Header */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
         <div>
           <h1 className="text-2xl font-bold mb-1">Response Dashboard</h1>
-          <p className="text-gray-400 text-sm">See. Here are the current emergency tasks.</p>
+          <p className="text-gray-400 text-sm">Here are the current emergency tasks.</p>
         </div>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
         >
           ➕ Report New Incident
         </button>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard label="My Tasks" count={incidents.length} icon="👤" subtitle="Tasks assigned to you" />
-        <StatCard label="High Priority" count={incidents.filter(i => i.priority === 'HIGH').length} icon="⚠️" subtitle="Urgent tasks" />
-        <StatCard label="Response Time" count="12m" icon="⏱️" subtitle="Avg response time" />
-        <StatCard label="Open Tasks" count={incidents.length} icon="📋" subtitle="Tasks available" />
+        <Card label="My Tasks" count={incidents.length} icon="👤" subtitle="Tasks assigned to you" tags="Create Task" />
+        <Card label="High Priority" count={incidents.filter(i => i.priority === 'HIGH').length} icon="⚠️" subtitle="Urgent tasks" tags="Create Task" />
+        <Card label="Response Time" count="12m" icon="⏱️" subtitle="Avg response time" tags="Create Task" />
+        <Card label="Open Tasks" count={incidents.length} icon="📋" subtitle="Tasks available" tags="Create Task" />
       </div>
 
-      {/* Emergency Tasks */}
       <h2 className="text-xl font-bold mb-4">Emergency Tasks</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {incidents.map((incident) => (
@@ -95,35 +93,24 @@ const Home = () => {
         ))}
       </div>
 
-      {/* Create Task Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
           <div className="bg-gray-800 w-full max-w-lg rounded-lg p-6 shadow-lg relative">
             <h2 className="text-xl font-bold mb-4">Create New Task</h2>
             <form onSubmit={handleCreateTask} className="space-y-4">
-              <input type="text" name="title" placeholder="Title" value={form.title} onChange={handleInputChange}
-                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600" required />
-              <textarea name="description" placeholder="Description" value={form.description} onChange={handleInputChange}
-                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600" required />
-              <input type="text" name="location" placeholder="Location" value={form.location} onChange={handleInputChange}
-                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600" required />
-              <input type="text" name="time" placeholder="Estimated Time" value={form.time} onChange={handleInputChange}
-                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600" />
-              <select name="priority" value={form.priority} onChange={handleInputChange}
-                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600">
+              <input type="text" name="title" placeholder="Title" value={form.title} onChange={handleInputChange} className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600" required />
+              <textarea name="description" placeholder="Description" value={form.description} onChange={handleInputChange} className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600" required />
+              <input type="text" name="location" placeholder="Location" value={form.location} onChange={handleInputChange} className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600" required />
+              <input type="text" name="time" placeholder="Estimated Time" value={form.time} onChange={handleInputChange} className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600" />
+              <select name="priority" value={form.priority} onChange={handleInputChange} className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600">
                 <option value="LOW">Low</option>
                 <option value="MEDIUM">Medium</option>
                 <option value="HIGH">High</option>
               </select>
-              <input type="text" name="creator" placeholder="Created By" value={form.creator} onChange={handleInputChange}
-                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600" />
+              <input type="text" name="creator" placeholder="Created By" value={form.creator} onChange={handleInputChange} className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600" />
               <div className="flex justify-end gap-3">
-                <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 rounded bg-gray-600 hover:bg-gray-700">
-                  Cancel
-                </button>
-                <button type="submit" className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700">
-                  Create
-                </button>
+                <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 rounded bg-gray-600 hover:bg-gray-700">Cancel</button>
+                <button type="submit" className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700">Create</button>
               </div>
             </form>
           </div>
@@ -132,16 +119,5 @@ const Home = () => {
     </div>
   );
 };
-
-const StatCard = ({ label, count, icon, subtitle }) => (
-  <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-    <div className="flex items-center justify-between mb-2">
-      <span className="text-gray-400 text-sm">{label}</span>
-      <span className="text-lg">{icon}</span>
-    </div>
-    <div className="text-2xl font-bold mb-1">{count}</div>
-    <div className="text-gray-400 text-xs">{subtitle}</div>
-  </div>
-);
 
 export default Home;

@@ -1,7 +1,9 @@
 import React from 'react';
 import Modal from './Model'; // Optional: you can disable this if you don't want confirmation
+import axios from 'axios';
+import CreateTaskModal from './CreateTaskModal';
 
-const Card = ({ title, description, priority, location, time, creator }) => {
+const Card = ({ title, description, priority, location, time, creator, tags }) => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   const handleTakeTask = () => {
@@ -9,6 +11,8 @@ const Card = ({ title, description, priority, location, time, creator }) => {
   };
 
   const handleConfirm = () => {
+    const response=axios.post('http://localhost:8085/api/incidents/assign',
+  );
     setIsModalOpen(false);
     console.log("Task confirmed:", title);
   };
@@ -37,11 +41,11 @@ const Card = ({ title, description, priority, location, time, creator }) => {
         onClick={handleTakeTask}
         className="mt-2 w-full bg-white text-black py-2 rounded hover:bg-gray-300"
       >
-        Take Task
+        {tags}
       </button>
 
       {isModalOpen && (
-        <Modal
+        <CreateTaskModal
           task={{ title, description, location, time }}
           onClose={handleClose}
           onConfirm={handleConfirm}
