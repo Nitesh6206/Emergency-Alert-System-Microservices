@@ -33,6 +33,13 @@ spring:
     config:
       enabled: false
 
+security:
+  jwt:
+    secret: DFHNYUTYFNYTBDVRSTS2323DDSFDFDFHHHFsdessedfgdhdhdDRGDHDH
+    expiration: 3600000
+    refresh:
+      expiration: 604800000
+
 
 eureka:
   client:
@@ -44,11 +51,11 @@ eureka:
 server:
   port: 8080
 
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: health,info,metrics,prometheus
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
 #  metrics:
 #    export:
 #      prometheus:
